@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>スケジュール結果</title>
+</head>
+<body>
+    <h1>スケジュール結果</h1>
+
+    <p>技打日: {{ technical_meeting }}</p>
+    <p>設計書日: {{ design_document }}</p>
+    <p>仕様書日: {{ specification_document }}</p>
+    <p>全成分日: {{ all_ingredients }}</p>
+
+    {% if trial_date and trial_date != "未定" %}
+        <p>試作日: {{ trial_date }}</p>
+    {% elif trial_date == "未定" %}
+        <p>試作日: 未定</p>
+    {% endif %}
+
+    {% if result %}
+        <p>備考: {{ result }}</p>
+    {% endif %}
+
+    <h2>スケジュール一覧</h2>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>項目</th>
+                <th>日付</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in schedule %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/">フォームに戻る</a>
+</body>
+</html>

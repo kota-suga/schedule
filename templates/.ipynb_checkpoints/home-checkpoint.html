@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スケジュール作成フォーム</title>
+</head>
+<body>
+    <h1>スケジュール作成フォーム</h1>
+    <form action="/submit" method="post">
+        <!-- 技打日 -->
+        <label for="technical_meeting">技打日 (YYYY-MM-DD):</label>
+        <input type="date" id="technical_meeting" name="technical_meeting" required><br><br>
+        
+        <!-- 設計書日 -->
+        <label for="design_document">設計書日 (YYYY-MM-DD):</label>
+        <input type="date" id="design_document" name="design_document" required><br><br>
+        
+        <!-- 仕様書日 -->
+        <label for="specification_document">仕様書日 (YYYY-MM-DD):</label>
+        <input type="date" id="specification_document" name="specification_document" required><br><br>
+        
+        <!-- 全成分日 -->
+        <label for="all_ingredients">全成分日 (YYYY-MM-DD):</label>
+        <input type="date" id="all_ingredients" name="all_ingredients" required><br><br>
+        
+        <!-- 年次分類 -->
+        <label for="annual_classification">年次分類:</label>
+        <select id="annual_classification" name="annual_classification" required>
+            <option value="spf_with_test" selected>SPF測定あり</option>
+            <option value="no_spf">SPF測定なし</option>
+            <option value="spf_and_aretenon">SPF,アレテノンコメテストあり</option>
+            <option value="no_spf_and_aretenon">SPF,アレテノンコメテストなし</option>
+            <option value="spf_transfer">SPF転用</option>
+            <option value="aretenon">アレテノンコメあり</option>
+            <option value="no_aretenon">アレテノンコメなし</option>
+        </select><br><br>
+
+        <!-- 試作有無 -->
+        <label for="prototype">試作:</label>
+        <select id="prototype" name="prototype" required>
+            <option value="with_prototype" selected>あり</option>
+            <option value="no_prototype">なし</option>
+        </select><br><br>
+
+        <!-- 回答時期（条件に応じて表示） -->
+        <div id="response_date_section" style="display:none;">
+            <label for="response_date">回答時期 (YYYY-MM-DD):</label>
+            <input type="date" id="response_date" name="response_date"><br><br>
+        </div>
+
+        <!-- 試作日（試作ありのときだけ表示） -->
+        <div id="trial_date_section" style="display:none;">
+            <label for="trial_date">試作日 (YYYY-MM-DD):</label>
+            <input type="date" id="trial_date" name="trial_date"><br><br>
+        </div>
+
+        <button type="submit">スケジュールを生成</button>
+    </form>
+
+<script>
+    const annualClassification = document.getElementById('annual_classification');
+    const prototype = document.getElementById('prototype');
+    const responseDateSection = document.getElementById('response_date_section');
+    const trialDateSection = document.getElementById('trial_date_section');
+
+    // 年次分類に応じて回答時期を表示
+    function toggleResponseDate() {
+        const ac = annualClassification.value;
+
+        const requiresResponseDate =
+            ac === 'spf_with_test' ||
+            ac === 'spf_and_aretenon' ||
+            ac === 'aretenon';
+
+        responseDateSection.style.display = requiresResponseDate ? 'block' : 'none';
+    }
+
+    // 試作に応じて試作日を表示
+    function toggleTrialDate() {
+        trialDateSection.style.display = prototype.value === 'with_prototype' ? 'block' : 'none';
+    }
+
+    // イベント登録
+    annualClassification.addEventListener('change', toggleResponseDate);
+    prototype.addEventListener('change', toggleTrialDate);
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', () => {
+        toggleResponseDate();
+        toggleTrialDate();
+    });
+</script>
+</body>
+</html>

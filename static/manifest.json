@@ -1,0 +1,16 @@
+{
+  "name": "スケジュール作成アプリ",
+  "short_name": "スケジュール",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "description": "化粧品の開発スケジュールを自動で作成するアプリ",
+  "icons": [
+    {
+      "src": "static/frankmuller_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
