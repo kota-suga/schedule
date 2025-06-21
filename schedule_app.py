@@ -18,9 +18,26 @@ def home():
 
 @app.route("/submit", methods=["POST"])
 def submit():
-    data = request.form.to_dict()
-    return render_template("result.html", data=data)
-    
+    technical_meeting = request.form.get("technical_meeting")
+    design_document = request.form.get("design_document")
+    specification_document = request.form.get("specification_document")
+    all_ingredients = request.form.get("all_ingredients")
+    annual_classification = request.form.get("annual_classification")
+    prototype = request.form.get("prototype", "").strip()  # ← stripを追加
+    response_date = request.form.get("response_date")
+    trial_date = request.form.get("trial_date")
+
+    schedule = [
+        ("技打", technical_meeting),
+        ("設計書", design_document),
+        ("仕様書", specification_document),
+        ("全成分", all_ingredients),
+    ]
+    if response_date:
+        schedule.append(("回答時期", response_date))
+    if trial_date:
+        schedule.append(("試作", trial_date))
+
     # フォームデータを取得
     technical_meeting = request.form["technical_meeting"]  # 技打日
     design_document = request.form["design_document"]  # 設計書日
@@ -528,6 +545,7 @@ def submit():
     all_ingredients=all_ingredients_date,
     trial_date=trial_date,
     prototype=prototype,
+    response_date=response_date,
     result=result  
 )
 
